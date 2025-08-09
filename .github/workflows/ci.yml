@@ -1,0 +1,27 @@
+name: CI Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      POSTGRES_USER:  ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD:  ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_PORT:  ${{ secrets.POSTGRES_PORT }}
+      CLIENT_NAME:  ${{ secrets.CLIENT_NAME }}
+      REDIS_PORT:  ${{ secrets.REDIS_PORT }}
+      RABBITMQ_USER:  ${{ secrets.RABBITMQ_USER }}
+      RABBITMQ_PASSWORD:  ${{ secrets.RABBITMQ_PASSWORD }}
+      ELASTIC_USERNAME:  ${{ secrets.ELASTIC_USERNAME }}
+      ELASTIC_PASSWORD:   ${{ secrets.ELASTIC_PASSWORD }}
+    steps:
+      - name: 🔄 Repository Checkout
+        uses: actions/checkout@v3
+
+      - name: 🐳 Build
+        run: docker compose build
